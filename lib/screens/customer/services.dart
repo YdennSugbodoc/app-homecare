@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:material_symbols_icons/symbols.dart';
+import 'package:homecare_app/screens/customer/services_select.dart';
 
 enum ViewMode { grid2, list, grid1 }
 
@@ -577,53 +578,95 @@ class _ServicesScreenState extends State<ServicesScreen> {
                 Expanded(
                   child: ListView(
                     children:
-                        (service['facilities'] as List<dynamic>).map((
-                          facility,
-                        ) {
-                          return Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 12),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  facility['name'],
-                                  style: const TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                  ),
+                        (service['facilities'] != null &&
+                                    service['facilities'] is List
+                                ? service['facilities']
+                                : [] // Fallback to empty list if null or invalid type
+                                )
+                            .map<Widget>((facility) {
+                              return Padding(
+                                padding: const EdgeInsets.symmetric(
+                                  vertical: 12,
                                 ),
-                                const SizedBox(height: 4),
-                                Row(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    const Icon(
-                                      Icons.local_offer,
-                                      color: Colors.grey,
-                                      size: 14,
+                                    GestureDetector(
+                                      onTap: () {
+                                        final selectedFacility = {
+                                          'name':
+                                              facility['name'] ??
+                                              'Unnamed Facility',
+                                          'services': [
+                                            {
+                                              'service_name':
+                                                  'Full Body Massage',
+                                              'service_description':
+                                                  'A relaxing full body massage for 60 minutes.',
+                                            },
+                                            {
+                                              'service_name':
+                                                  'Foot Reflexology',
+                                              'service_description':
+                                                  'A 30-minute foot massage to stimulate circulation.',
+                                            },
+                                          ],
+                                        };
+
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder:
+                                                (context) =>
+                                                    ServicesSelectScreen(
+                                                      facility:
+                                                          selectedFacility,
+                                                    ),
+                                          ),
+                                        );
+                                      },
+
+                                      child: Text(
+                                        facility['name'],
+                                        style: const TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
                                     ),
-                                    const SizedBox(width: 4),
-                                    Text(
-                                      '${facility['price']} • ${facility['duration']}',
+                                    const SizedBox(height: 4),
+                                    Row(
+                                      children: [
+                                        const Icon(
+                                          Icons.local_offer,
+                                          color: Colors.grey,
+                                          size: 14,
+                                        ),
+                                        const SizedBox(width: 4),
+                                        Text(
+                                          '${facility['price']} • ${facility['duration']}',
+                                        ),
+                                      ],
+                                    ),
+                                    const SizedBox(height: 4),
+                                    Row(
+                                      children: [
+                                        const Icon(
+                                          Icons.navigation_outlined,
+                                          color: Colors.grey,
+                                          size: 14,
+                                        ),
+                                        const SizedBox(width: 4),
+                                        Text(
+                                          '${facility['distance']} ~ (approximate) ${facility['arrival']} arrival',
+                                          style: const TextStyle(fontSize: 12),
+                                        ),
+                                      ],
                                     ),
                                   ],
                                 ),
-                                const SizedBox(height: 4),
-                                Row(
-                                  children: [
-                                    const Icon(
-                                      Icons.navigation_outlined,
-                                      color: Colors.grey,
-                                      size: 14,
-                                    ),
-                                    const SizedBox(width: 4),
-                                    Text(
-                                      '${facility['distance']} ~ (approximate) ${facility['arrival']} arrival',
-                                      style: const TextStyle(fontSize: 12),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                          );
-                        }).toList(),
+                              );
+                            })
+                            .toList(),
                   ),
                 ),
               ],
