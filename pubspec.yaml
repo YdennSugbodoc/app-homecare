@@ -1,0 +1,38 @@
+name: homecare_app
+description: "A new Flutter project."
+
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.7.2
+
+dependencies:
+  flutter:
+    sdk: flutter
+  font_awesome_flutter: ^10.3.0
+  material_symbols_icons: ^4.2719.0
+
+
+  cupertino_icons: ^1.0.8
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  flutter_lints: ^5.0.0
+
+flutter:
+  uses-material-design: true
+  assets:
+    # icons
+    # - lib/assets/icons/
+    # pictures
+    # - lib/assets/pictures/
+    - assets/pictures/avatar.jpg
+    - assets/pictures/avatar1.jpg
+    # sounds
+    # - lib/assets/sounds/
+    # videos
+    # - lib/assets/vids/
